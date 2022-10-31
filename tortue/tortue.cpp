@@ -42,6 +42,11 @@ void drawHead();
 void drawTail();
 void drawEyes();
 
+// animation
+void animHeadAndTail();
+int angle=-30;
+bool left=true;
+
 //!
 //! \brief : Fonction main
 //! \details : Permet d'initialiser OpenGL
@@ -62,6 +67,7 @@ int main(int argc,char **argv)
   glColor3f(1.0,1.0,1.0);
   glPointSize(2.0);
   glEnable(GL_DEPTH_TEST);
+  glutIdleFunc(animHeadAndTail);
 
   /* enregistrement des fonctions de rappel */
   glutDisplayFunc(affichage);
@@ -98,9 +104,17 @@ void affichage()
     drawShell();
     drawUnder();
     drawFeets();
-    drawHead();
-    drawTail();
-    drawEyes();
+
+    glPushMatrix();
+        glRotated(angle, 0, 1, 0);
+        drawTail();
+    glPopMatrix();
+
+    glPushMatrix();
+        glRotated(-angle, 1, 0, 0);
+        drawHead();
+        drawEyes();
+    glPopMatrix();
 
     //Repère
     //axe x en rouge
@@ -211,7 +225,7 @@ void mouse(int button, int state,int x,int y)
 
 
 //!
-//! \brief : Classe point
+//! \brief : Classe pointfalse
 //! \details : Permet de définir les mouvements de la souris
 //!
 //! \author : S.Lanquetin
@@ -387,4 +401,14 @@ void drawEyes()
         glTranslatef(9.7,2.05,1.15);
         glutSolidSphere(0.1,125,125);
     glPopMatrix();
+}
+
+void animHeadAndTail()
+{
+    left ? angle+=1 : angle-=1;
+
+    if(angle>30) left=false;
+    else if(angle<-30) left=true;
+
+    glutPostRedisplay();
 }
