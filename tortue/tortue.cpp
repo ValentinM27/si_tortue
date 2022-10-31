@@ -40,6 +40,7 @@ void drawUnder();
 void drawFeets();
 void drawHead();
 void drawTail();
+void drawEyes();
 
 //!
 //! \brief : Fonction main
@@ -99,6 +100,7 @@ void affichage()
     drawFeets();
     drawHead();
     drawTail();
+    drawEyes();
 
     //Repère
     //axe x en rouge
@@ -342,5 +344,47 @@ void drawUnder()
         glScalef(0.6,0.2,0.4);
         glTranslatef(0,-0.1,0);
         glutSolidSphere(1,25,25);
+    glPopMatrix();
+}
+
+//!
+//! \brief : Function drawEyes
+//! \details : Permet de créer les yeux de la tortue
+//!
+//! \author : V.Marguerie
+//!
+void drawEyes()
+{
+    glColor3f(1,1,1);
+
+    // Droit
+    glPushMatrix();
+        glScalef(0.4,0.4,0.4);
+        glTranslatef(2.34,0.48,-0.25);
+        glutSolidSphere(0.1,125,125);
+    glPopMatrix();
+
+    // Gauche
+    glPushMatrix();
+        glScalef(0.4,0.4,0.4);
+        glTranslatef(2.34,0.48,0.25);
+        glutSolidSphere(0.1,125,125);
+    glPopMatrix();
+
+
+    glColor3f(0,0,0);
+
+    // Pupille Droit
+    glPushMatrix();
+        glScalef(0.1,0.1,0.1);
+        glTranslatef(9.7,2.05,-1.15);
+        glutSolidSphere(0.1,125,125);
+    glPopMatrix();
+
+    // Pupille Gauche
+    glPushMatrix();
+        glScalef(0.1,0.1,0.1);
+        glTranslatef(9.7,2.05,1.15);
+        glutSolidSphere(0.1,125,125);
     glPopMatrix();
 }
