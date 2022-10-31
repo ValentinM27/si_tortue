@@ -41,6 +41,7 @@ void drawFeets();
 void drawHead();
 void drawTail();
 void drawEyes();
+void drawPupil();
 
 // animation
 void animHeadAndTail();
@@ -106,7 +107,7 @@ void affichage()
     drawFeets();
 
     glPushMatrix();
-        glRotated(angle, 0, 1, 0);
+        glRotated(angle/3, 0, 1, 0);
         drawTail();
     glPopMatrix();
 
@@ -114,6 +115,11 @@ void affichage()
         glRotated(-angle, 1, 0, 0);
         drawHead();
         drawEyes();
+
+        glPushMatrix();
+        glRotated(-angle/15, 1, 1, 1);
+            drawPupil();
+        glPopMatrix();
     glPopMatrix();
 
     //Repère
@@ -384,8 +390,10 @@ void drawEyes()
         glTranslatef(2.34,0.48,0.25);
         glutSolidSphere(0.1,125,125);
     glPopMatrix();
+}
 
-
+void drawPupil()
+{
     glColor3f(0,0,0);
 
     // Pupille Droit
@@ -403,9 +411,8 @@ void drawEyes()
     glPopMatrix();
 }
 
-
 //!
-//! \brief : Function animHeadnAndTail
+//! \brief : hhFunction animHeadnAndTail
 //! \details : Permet de créer l'animaton de la tête et de la queue
 //!
 //! \author : V.Marguerie
