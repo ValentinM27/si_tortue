@@ -255,7 +255,7 @@ void drawShell()
 {
     glPushMatrix();
     	glColor3f(0.7,0.5,0.1);
-        glScalef(0.8,0.3,0.6);
+        glScalef(0.8,0.2,0.6);
         glTranslatef(0,0.5,0);
         glutSolidSphere(1,25,25);
     glPopMatrix();
