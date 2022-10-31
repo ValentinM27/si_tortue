@@ -33,6 +33,10 @@ void idle();
 void mouse(int bouton,int etat,int x,int y);
 void mousemotion(int x,int y);
 
+// Fonction de dessin
+void drawBody();
+void drawShell();
+void drawFeets();
 
 //!
 //! \brief : Fonction main
@@ -85,6 +89,10 @@ void affichage()
     glLoadIdentity();
     glRotatef(angley,1.0,0.0,0.0);
     glRotatef(anglex,0.0,1.0,0.0);
+
+    drawBody();
+    drawShell();
+    drawFeets();
 
     //Repère
     //axe x en rouge
@@ -212,4 +220,70 @@ void mousemotion(int x,int y)
 
     xold=x;
     yold=y;
+}
+
+//!
+//! \brief : Function drawBody
+//! \details : Permet de créer le corps
+//!
+//! \author : V.Marguerie
+//!
+void drawBody()
+{
+    glPushMatrix();
+    	glColor3f(0.1,0.9,0.3);
+        glScalef(0.6,0.2,0.5);
+        glutSolidSphere(1,25,25);
+    glPopMatrix();
+}
+
+//!
+//! \brief : Function drawShell
+//! \details : Permet de créer la carapace
+//!
+//! \author : V.Marguerie
+//!
+void drawShell()
+{
+    glPushMatrix();
+    	glColor3f(0.7,0.5,0.1);
+        glScalef(0.8,0.3,0.6);
+        glTranslatef(0,0.5,0);
+        glutSolidSphere(1,25,25);
+    glPopMatrix();
+}
+
+//!
+//! \brief : Function drawFeets
+//! \details : Permet de créer les pieds
+//!
+//! \author : V.Marguerie
+//!
+void drawFeets()
+{
+    glColor3f(0.7,0.5,0.1);
+
+    // Pied droit
+    glPushMatrix();
+        glTranslatef(0.4,-0.13,-0.25);
+        glutSolidSphere(0.1,125,135);
+    glPopMatrix();
+
+    // Pied  gauche
+    glPushMatrix();
+        glTranslatef(0.4,-0.13, 0.25);
+        glutSolidSphere(0.1,125,135);
+    glPopMatrix();
+
+    // Pied arr droit
+    glPushMatrix();
+        glTranslatef(-0.4,-0.13,-0.25);
+        glutSolidSphere(0.1,125,135);
+    glPopMatrix();
+
+    // Pied arr gauche
+    glPushMatrix();
+        glTranslatef(-0.4,-0.13,0.25);
+        glutSolidSphere(0.1,125,135);
+    glPopMatrix();
 }

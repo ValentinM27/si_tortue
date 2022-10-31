@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1667215931 source:/home/valentin/Documents/si_tortue/tortue/tortue.cpp
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<cstdlib>
+
