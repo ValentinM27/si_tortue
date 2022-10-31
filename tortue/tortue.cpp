@@ -403,6 +403,13 @@ void drawEyes()
     glPopMatrix();
 }
 
+
+//!
+//! \brief : Function animHeadnAndTail
+//! \details : Permet de créer l'animaton de la tête et de la queue
+//!
+//! \author : V.Marguerie
+//!
 void animHeadAndTail()
 {
     left ? angle+=1 : angle-=1;
