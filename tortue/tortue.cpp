@@ -1,49 +1,26 @@
-/********************************************************/
-/*                     cube.cpp                                                 */
-/********************************************************/
-/*                Affiche a l'ecran un cube en 3D                      */
-/********************************************************/
-
-/* inclusion des fichiers d'en-tete freeglut */
-
 #ifdef __APPLE__
-#include <GLUT/glut.h> /* Pour Mac OS X */
+#include <GLUT/glut.h>
 #else
-#include <GL/glut.h>   /* Pour les autres systemes */
-#endif 
+#include <GL/glut.h>
+#endif
 #include <cstdlib>
 
-/*class Point*/
+//!
+//! \brief : Classe point
+//! \details : Permet de définir un point avec son code RGB
+//!
+//! \author : S.Lanquetin
+//! \source : cube.cpp | TP 0 - Synthèse d'image
+//!
 class Point{
     public :
-	//coordonnées x, y et z du point
-	double x;
-	double y;
-	double z;
-	// couleur r, v et b du point
-	float r;
-	float g;
-	float b;
+        double x;
+        double y;
+        double z;
+        float r;
+        float g;
+        float b;
 };
-//Tableau pour stocker les sommets du cube et leur couleur
-Point pCube[8]={
-    {-0.5,-0.5, 0.5,1.0,0.0,0.0},
-    { 0.5, -0.5, 0.5,0.0,1.0,0.0},
-    { 0.5, -0.5, -0.5,0.0,0.0,1.0},
-    { -0.5, -0.5, -0.5,1.0,1.0,1.0},
-    { -0.5,0.5, 0.5,1.0,0.0,0.0},
-    { 0.5, 0.5, 0.5,0.0,1.0,0.0},
-    { 0.5, 0.5, -0.5,0.0,0.0,1.0},
-    { -0.5, 0.5, -0.5,1.0,1.0,1.0}};
-  
-//Tableau pour stocker les indices des sommets par face pour le cube
-int fCube[6][4]={
-  {0,1,2,3},//face envers endroit={0,3,2,1}
-  {0,1,5,4},
-  {1,2,6,5},
-  {2,3,7,6},
-  {0,4,7,3},
-  {4,5,6,7}};
 
 char presse;
 int anglex,angley,x,y,xold,yold;
@@ -56,10 +33,16 @@ void idle();
 void mouse(int bouton,int etat,int x,int y);
 void mousemotion(int x,int y);
 
+
+//!
+//! \brief : Fonction main
+//! \details : Permet d'initialiser OpenGL
+//!
+//! \authors : S.Lanquetin | V.Marguerie
+//!
 int main(int argc,char **argv)
 {
-  /* initialisation de glut et creation
-     de la fenetre */
+  /* initialisation de glut et creation de la fenetre */
   glutInit(&argc,argv);
   glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
   glutInitWindowPosition(200,200);
@@ -85,28 +68,24 @@ int main(int argc,char **argv)
 }
 
 
+//!
+//! \brief : Fonction affichage
+//! \details : Permet d'afficher les formes et les axes
+//!
+//! \authors : V.Marguerie | S.Lanquetin
+//!
 void affichage()
 {
-  int i,j;
-  /* effacement de l'image avec la couleur de fond */
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-glShadeModel(GL_SMOOTH);
-  
-  glLoadIdentity();
-  glRotatef(angley,1.0,0.0,0.0);
-  glRotatef(anglex,0.0,1.0,0.0);
-	
-   // Dessin du cube
-  for (i=0;i<6;i++)
-    {
-      glBegin(GL_POLYGON);
-      for (j=0;j<4;j++){
-          glColor3f(pCube[fCube[i][j]].r,pCube[fCube[i][j]].g,pCube[fCube[i][j]].b);
-          glVertex3f(pCube[fCube[i][j]].x,pCube[fCube[i][j]].y,pCube[fCube[i][j]].z);
-      }
-      glEnd();
-    }
-    
+    int i,j;
+
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glShadeModel(GL_SMOOTH);
+
+    glLoadIdentity();
+    glRotatef(angley,1.0,0.0,0.0);
+    glRotatef(anglex,0.0,1.0,0.0);
+
     //Repère
     //axe x en rouge
     glBegin(GL_LINES);
@@ -114,12 +93,14 @@ glShadeModel(GL_SMOOTH);
     	glVertex3f(0, 0,0.0);
     	glVertex3f(1, 0,0.0);
     glEnd();
+
     //axe des y en vert
     glBegin(GL_LINES);
     	glColor3f(0.0,1.0,0.0);
     	glVertex3f(0, 0,0.0);
     	glVertex3f(0, 1,0.0);
     glEnd();
+
     //axe des z en bleu
     glBegin(GL_LINES);
     	glColor3f(0.0,0.0,1.0);
@@ -127,12 +108,20 @@ glShadeModel(GL_SMOOTH);
     	glVertex3f(0, 0,1.0);
     glEnd();
 
-  glFlush();
-  
-  //On echange les buffers 
-  glutSwapBuffers();
+    glFlush();
+
+    //On echange les buffers
+    glutSwapBuffers();
 }
 
+
+//!
+//! \brief : fonction clavier
+//! \details : Permet de définir définir des actions au clavier
+//!
+//! \author : S.Lanquetin
+//! \source : cube.cpp | TP 0 - Synthèse d'image
+//!
 void clavier(unsigned char touche,int x,int y)
 {
   switch (touche)
@@ -162,45 +151,65 @@ void clavier(unsigned char touche,int x,int y)
       glPolygonMode(GL_FRONT,GL_LINE);
       glutPostRedisplay();
     break;
-    case 'q' : /*la touche 'q' permet de quitter le programme */
+    case 'q' :
       exit(0);
     }
 }
 
+
+//!
+//! \brief : Fonction reshape
+//! \details : Permet de conserver l'echelle des formes lors de changements de tailles de fenêtre
+//!
+//! \author : S.Lanquetin
+//! \source : cube.cpp | TP 0 - Synthèse d'image
+//!
 void reshape(int x,int y)
 {
   if (x<y)
     glViewport(0,(y-x)/2,x,x);
-  else 
+  else
     glViewport((x-y)/2,0,y,y);
 }
 
+
+
+//!
+//! \brief : Fonction mouse
+//! \details : Permet de définir des actions à la souris
+//!
+//! \author : S.Lanquetin
+//! \source : cube.cpp | TP 0 - Synthèse d'image
+//!
 void mouse(int button, int state,int x,int y)
 {
-  /* si on appuie sur le bouton gauche */
-  if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) 
-  {
-    presse = 1; /* le booleen presse passe a 1 (vrai) */
-    xold = x; /* on sauvegarde la position de la souris */
-    yold=y;
-  }
-  /* si on relache le bouton gauche */
-  if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) 
-    presse=0; /* le booleen presse passe a 0 (faux) */
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+    {
+        presse = 1;
+        xold = x;
+        yold=y;
+    }
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
+        presse=0;
 }
 
+
+//!
+//! \brief : Classe point
+//! \details : Permet de définir les mouvements de la souris
+//!
+//! \author : S.Lanquetin
+//! \source : cube.cpp | TP 0 - Synthèse d'image
+//!
 void mousemotion(int x,int y)
-  {
-    if (presse) /* si le bouton gauche est presse */
+{
+    if (presse)
     {
-      /* on modifie les angles de rotation de l'objet
-	 en fonction de la position actuelle de la souris et de la derniere
-	 position sauvegardee */
-      anglex=anglex+(x-xold); 
-      angley=angley+(y-yold);
-      glutPostRedisplay(); /* on demande un rafraichissement de l'affichage */
+        anglex=anglex+(x-xold);
+        angley=angley+(y-yold);
+        glutPostRedisplay();
     }
-    
-    xold=x; /* sauvegarde des valeurs courante de le position de la souris */
+
+    xold=x;
     yold=y;
-  }
+}
