@@ -36,7 +36,10 @@ void mousemotion(int x,int y);
 // Fonction de dessin
 void drawBody();
 void drawShell();
+void drawUnder();
 void drawFeets();
+void drawHead();
+void drawTail();
 
 //!
 //! \brief : Fonction main
@@ -51,7 +54,7 @@ int main(int argc,char **argv)
   glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
   glutInitWindowPosition(200,200);
   glutInitWindowSize(500,500);
-  glutCreateWindow("cube");
+  glutCreateWindow("Tortue");
 
   /* Initialisation d'OpenGL */
   glClearColor(0.0,0.0,0.0,0.0);
@@ -92,7 +95,10 @@ void affichage()
 
     drawBody();
     drawShell();
+    drawUnder();
     drawFeets();
+    drawHead();
+    drawTail();
 
     //Repère
     //axe x en rouge
@@ -261,29 +267,80 @@ void drawShell()
 //!
 void drawFeets()
 {
-    glColor3f(0.7,0.5,0.1);
+    glColor3f(0.1,0.9,0.3);
 
     // Pied droit
     glPushMatrix();
-        glTranslatef(0.4,-0.13,-0.25);
+        glTranslatef(0.35,-0.11,-0.35);
         glutSolidSphere(0.1,125,135);
     glPopMatrix();
 
     // Pied  gauche
     glPushMatrix();
-        glTranslatef(0.4,-0.13, 0.25);
+        glTranslatef(0.35,-0.11,0.35);
         glutSolidSphere(0.1,125,135);
     glPopMatrix();
 
     // Pied arr droit
     glPushMatrix();
-        glTranslatef(-0.4,-0.13,-0.25);
+        glTranslatef(-0.35,-0.11,-0.35);
         glutSolidSphere(0.1,125,135);
     glPopMatrix();
 
     // Pied arr gauche
     glPushMatrix();
-        glTranslatef(-0.4,-0.13,0.25);
+        glTranslatef(-0.35,-0.11,0.35);
         glutSolidSphere(0.1,125,135);
+    glPopMatrix();
+}
+
+//!
+//! \brief : Function drawHead
+//! \details : Permet de créer la base de la tête
+//!
+//! \author : V.Marguerie
+//!
+void drawHead()
+{
+    glColor3f(0.1,0.9,0.3);
+
+    glPushMatrix();
+        glScalef(1.4,0.9,1.6);
+        glTranslatef(0.6,0.15,0);
+        glutSolidSphere(0.1,125,125);
+    glPopMatrix();
+}
+
+//!
+//! \brief : Function drawTail
+//! \details : Permet de créer la queue
+//!
+//! \author : V.Marguerie
+//!
+void drawTail()
+{
+    glColor3f(0.1,0.9,0.3);
+
+    glPushMatrix();
+        glScalef(1.8,0.4,1);
+        glTranslatef(-0.4,0,0);
+        glutSolidSphere(0.1,125,125);
+    glPopMatrix();
+}
+
+//!
+//! \brief : Function drawUnder
+//! \details : Permet de créer le dessous de la tortue
+//!
+//! \author : V.Marguerie
+//!
+void drawUnder()
+{
+    glColor3f(0.7,0.5,0.1);
+
+    glPushMatrix();
+        glScalef(0.6,0.2,0.4);
+        glTranslatef(0,-0.1,0);
+        glutSolidSphere(1,25,25);
     glPopMatrix();
 }
