@@ -48,6 +48,9 @@ void animHeadAndTail();
 int angle=-30;
 bool left=true;
 
+// Zoom
+float zoomValue = 1;
+
 //!
 //! \brief : Fonction main
 //! \details : Permet d'initialiser OpenGL
@@ -96,6 +99,12 @@ void affichage()
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glShadeModel(GL_SMOOTH);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    // Mise en place du zoom
+    glOrtho(-zoomValue,zoomValue,-zoomValue,zoomValue,-zoomValue,zoomValue);
+    glMatrixMode(GL_MODELVIEW);
 
     glLoadIdentity();
     glRotatef(angley,1.0,0.0,0.0);
@@ -155,40 +164,50 @@ void affichage()
 //! \brief : fonction clavier
 //! \details : Permet de définir définir des actions au clavier
 //!
-//! \author : S.Lanquetin
+//! \author : S.Lanquetin | V.Marguerie
 //! \source : cube.cpp | TP 0 - Synthèse d'image
 //!
 void clavier(unsigned char touche,int x,int y)
 {
-  switch (touche)
+    switch (touche)
     {
-    case 'p': /* affichage du carre plein */
-      glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-      glutPostRedisplay();
-      break;
-    case 'f': /* affichage en mode fil de fer */
-      glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-      glutPostRedisplay();
-      break;
-    case 's' : /* Affichage en mode sommets seuls */
-      glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
-      glutPostRedisplay();
-      break;
-    case 'd':
-      glEnable(GL_DEPTH_TEST);
-      glutPostRedisplay();
-      break;
-    case 'D':
-      glDisable(GL_DEPTH_TEST);
-      glutPostRedisplay();
-      break;
-    case 'a':
-      glPolygonMode(GL_FRONT,GL_FILL);
-      glPolygonMode(GL_FRONT,GL_LINE);
-      glutPostRedisplay();
-    break;
-    case 'q' :
-      exit(0);
+        case 'p':
+            glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+            glutPostRedisplay();
+        break;
+        case 'f':
+            glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+            glutPostRedisplay();
+        break;
+        case 's' :
+            glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
+            glutPostRedisplay();
+        break;
+        case 'd':
+            glEnable(GL_DEPTH_TEST);
+            glutPostRedisplay();
+        break;
+        case 'D':
+            glDisable(GL_DEPTH_TEST);
+            glutPostRedisplay();
+        break;
+        case 'a':
+            glPolygonMode(GL_FRONT,GL_FILL);
+            glPolygonMode(GL_FRONT,GL_LINE);
+            glutPostRedisplay();
+        break;
+        case 'z': {
+            if(zoomValue == 1) break;
+            zoomValue -= 0.25;
+        }
+        break;
+        case 'Z': {
+            if(zoomValue == 15) break;
+            zoomValue += 0.25;
+        }
+        break;
+        case 'q' :
+            exit(0);
     }
 }
 
