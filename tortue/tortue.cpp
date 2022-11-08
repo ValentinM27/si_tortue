@@ -101,10 +101,11 @@ void affichage()
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
     initLightning();
 
     // Mise en place du zoom
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
     glOrtho(-zoomValue,zoomValue,-zoomValue,zoomValue,-zoomValue,zoomValue);
     glMatrixMode(GL_MODELVIEW);
 
@@ -174,21 +175,17 @@ void affichage()
 //!
 void initLightning()
 {
-    // Lumière ambiante
-    GLfloat ambientColor[] = {0.1f, 0.1f, 0.2f, 1.0f};
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
-
     // front light
     GLfloat lightColor0[] = {1.0f, 0.0f, 0.0f, 1.0f};
     // Gestion position
-    GLfloat lightPos0[] = {1.0f, 0.0f, -1.0f, 0.0f};
+    GLfloat lightPos0[] = {2.0f, 0.5f, 2.0f, 0.0f};
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
 
     // low-key light
-    GLfloat lightColor1[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat lightColor1[] = {0.6f, 0.6f, 0.6f, 1.0f};
     // Gestion position
-    GLfloat lightPos1[] = {-4.0f, 1.6f, -1.0f, -0.5f};
+    GLfloat lightPos1[] = {2.0f, -1.0f, 3.0f, 0.0f};
     glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
     glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
 
