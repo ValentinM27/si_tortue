@@ -163,10 +163,10 @@ void affichage()
 
 //!
 //! \brief : fonction initLightning
-//! \details : Permet de définir définir les lumières
+//! \details : Permet de définir les lumières
 //!
 //! Construction de la lumìere en deux points,
-//! un lumière principale de couleur rouge donnant la teinte
+//! une lumière principale de couleur rouge donnant la teinte
 //! et une seconde (dite low-key) en support pour donner de
 //! la profondeur à l'éclairage et nuancer fortement les ombres.
 //!
