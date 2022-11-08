@@ -51,6 +51,9 @@ bool left=true;
 // Zoom
 float zoomValue = 1;
 
+// lumières
+void initLightning();
+
 //!
 //! \brief : Fonction main
 //! \details : Permet d'initialiser OpenGL
@@ -59,30 +62,30 @@ float zoomValue = 1;
 //!
 int main(int argc,char **argv)
 {
-  /* initialisation de glut et creation de la fenetre */
-  glutInit(&argc,argv);
-  glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-  glutInitWindowPosition(200,200);
-  glutInitWindowSize(500,500);
-  glutCreateWindow("Tortue");
+    /* initialisation de glut et creation de la fenetre */
+    glutInit(&argc,argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitWindowPosition(200,200);
+    glutInitWindowSize(500,500);
+    glutCreateWindow("Tortue");
 
-  /* Initialisation d'OpenGL */
-  glClearColor(0.0,0.0,0.0,0.0);
-  glColor3f(1.0,1.0,1.0);
-  glPointSize(2.0);
-  glEnable(GL_DEPTH_TEST);
-  glutIdleFunc(animHeadAndTail);
+    /* Initialisation d'OpenGL */
+    glClearColor(0.0,0.0,0.0,0.0);
+    glColor3f(1.0,1.0,1.0);
+    glPointSize(2.0);
+    glEnable(GL_DEPTH_TEST);
+    glutIdleFunc(animHeadAndTail);
 
-  /* enregistrement des fonctions de rappel */
-  glutDisplayFunc(affichage);
-  glutKeyboardFunc(clavier);
-  glutReshapeFunc(reshape);
-  glutMouseFunc(mouse);
-  glutMotionFunc(mousemotion);
+    /* enregistrement des fonctions de rappel */
+    glutDisplayFunc(affichage);
+    glutKeyboardFunc(clavier);
+    glutReshapeFunc(reshape);
+    glutMouseFunc(mouse);
+    glutMotionFunc(mousemotion);
 
-  /* Entree dans la boucle principale glut */
-  glutMainLoop();
-  return 0;
+    /* Entree dans la boucle principale glut */
+    glutMainLoop();
+    return 0;
 }
 
 
@@ -94,14 +97,13 @@ int main(int argc,char **argv)
 //!
 void affichage()
 {
-    int i,j;
-
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glShadeModel(GL_SMOOTH);
 
-    glMatrixMode(GL_PROJECTION);
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+
+    initLightning();
+
     // Mise en place du zoom
     glOrtho(-zoomValue,zoomValue,-zoomValue,zoomValue,-zoomValue,zoomValue);
     glMatrixMode(GL_MODELVIEW);
@@ -157,6 +159,48 @@ void affichage()
 
     //On echange les buffers
     glutSwapBuffers();
+}
+
+//!
+//! \brief : fonction initLightning
+//! \details : Permet de définir définir les lumières
+//!
+//! Construction de la lumìere en deux points,
+//! un lumière principale de couleur rouge donnant la teinte
+//! et une seconde (dite low-key) en support pour donner de
+//! la profondeur à l'éclairage et nuancer fortement les ombres.
+//!
+//! \author : V.Marguerie
+//!
+void initLightning()
+{
+    // Lumière ambiante
+    GLfloat ambientColor[] = {0.1f, 0.1f, 0.2f, 1.0f};
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
+
+    // front light
+    GLfloat lightColor0[] = {1.0f, 0.0f, 0.0f, 1.0f};
+    // Gestion position
+    GLfloat lightPos0[] = {1.0f, 0.0f, -1.0f, 0.0f};
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+
+    // low-key light
+    GLfloat lightColor1[] = {1.0, 1.0, 1.0, 1.0};
+    // Gestion position
+    GLfloat lightPos1[] = {-4.0f, 1.6f, -1.0f, -0.5f};
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
+    glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
+
+
+    /* Initialisation pour la lumière */
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
+    glEnable(GL_NORMALIZE);
+    glShadeModel(GL_SMOOTH);
 }
 
 
