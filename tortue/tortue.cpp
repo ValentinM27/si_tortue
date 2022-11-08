@@ -276,6 +276,13 @@ void clavier(unsigned char touche,int x,int y)
     }
 }
 
+
+//!
+//! \brief : fonction handleArrowKeys
+//! \details : Permet de définir définir les actions des flèches
+//!
+//! \author : V.Marguerie
+//!
 void handleArrowKeys(int key, int x, int y)
 {
     switch (key)
@@ -299,6 +306,13 @@ void handleArrowKeys(int key, int x, int y)
     }
 }
 
+
+//!
+//! \brief : fonction handleArrowkeysReleased
+//! \details : Permet de gérer le relachement des flèches
+//!
+//! \author : V.Marguerie
+//!
 void handleArrowkeysReleased(int key, int x, int y)
 {
     switch (key)
