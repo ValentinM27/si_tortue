@@ -48,6 +48,10 @@ void animHeadAndTail();
 int angle=-30;
 bool left=true;
 
+bool feetsReverse=false;
+GLfloat moveFeets=0.35;
+void animFeets();
+
 // Zoom
 float zoomValue = 1;
 
@@ -247,6 +251,9 @@ void clavier(unsigned char touche,int x,int y)
             zoomValue += 0.25;
         }
         break;
+        case 'm':
+            animFeets();
+        break;
         case 'q' :
             exit(0);
     }
@@ -353,25 +360,25 @@ void drawFeets()
 
     // Pied droit
     glPushMatrix();
-        glTranslatef(0.35,-0.11,-0.35);
+        glTranslatef(moveFeets,-0.11,-0.35);
         glutSolidSphere(0.1,125,135);
     glPopMatrix();
 
     // Pied  gauche
     glPushMatrix();
-        glTranslatef(0.35,-0.11,0.35);
+        glTranslatef(moveFeets,-0.11,0.35);
         glutSolidSphere(0.1,125,135);
     glPopMatrix();
 
     // Pied arr droit
     glPushMatrix();
-        glTranslatef(-0.35,-0.11,-0.35);
+        glTranslatef(-moveFeets,-0.11,-0.35);
         glutSolidSphere(0.1,125,135);
     glPopMatrix();
 
     // Pied arr gauche
     glPushMatrix();
-        glTranslatef(-0.35,-0.11,0.35);
+        glTranslatef(-moveFeets,-0.11,0.35);
         glutSolidSphere(0.1,125,135);
     glPopMatrix();
 }
@@ -472,7 +479,7 @@ void drawPupil()
 }
 
 //!
-//! \brief : hhFunction animHeadnAndTail
+//! \brief : Function animHeadAndTail
 //! \details : Permet de créer l'animaton de la tête et de la queue
 //!
 //! \author : V.Marguerie
@@ -485,4 +492,23 @@ void animHeadAndTail()
     else if(angle<-30) left=true;
 
     glutPostRedisplay();
+}
+
+//!
+//! \brief : Function animFeets
+//! \details : Permet de créer l'animaton des pieds
+//!
+//! \author : V.Marguerie
+//!
+void animFeets()
+{
+    if(!feetsReverse) {
+        moveFeets+=0.02;
+
+        if(moveFeets > 0.5) feetsReverse=true;
+    } else {
+        moveFeets-=0.02;
+
+        if(moveFeets < 0.25) feetsReverse=false;
+    }
 }
