@@ -4,6 +4,7 @@
 #include <GL/glut.h>
 #endif
 #include <cstdlib>
+#include <iostream>
 
 //!
 //! \brief : Classe point
@@ -32,6 +33,8 @@ void reshape(int x,int y);
 void idle();
 void mouse(int bouton,int etat,int x,int y);
 void mousemotion(int x,int y);
+void handleArrowKeys(int key, int x, int y);
+void handleArrowkeysReleased(int key, int x, int y);
 
 // Fonction de dessin
 void drawBody();
@@ -52,8 +55,15 @@ bool feetsReverse=false;
 GLfloat moveFeets=0.35;
 void animFeets();
 
-// Zoom
+// Zoom et mouvements
 float zoomValue = 1;
+
+bool rightKeyPressed = false;
+bool leftKeyPressed = false;
+bool upKeyPressed = false;
+bool downKeyPressed = false;
+int verticalMove = 0;
+int horizontalMove = 0;
 
 // lumières
 void initLightning();
@@ -86,6 +96,8 @@ int main(int argc,char **argv)
     glutReshapeFunc(reshape);
     glutMouseFunc(mouse);
     glutMotionFunc(mousemotion);
+    glutSpecialFunc(handleArrowKeys);
+    glutSpecialUpFunc(handleArrowkeysReleased);
 
     /* Entree dans la boucle principale glut */
     glutMainLoop();
@@ -110,10 +122,15 @@ void affichage()
     // Mise en place du zoom
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+
+    // Zoom
     glOrtho(-zoomValue,zoomValue,-zoomValue,zoomValue,-zoomValue,zoomValue);
     glMatrixMode(GL_MODELVIEW);
 
     glLoadIdentity();
+    // Gestion mouvements flêches
+    glRotatef(verticalMove, 1.0, 0.0, 0.0);
+    glRotatef(horizontalMove, 0.0, 1.0, 0.0);
     glRotatef(angley,1.0,0.0,0.0);
     glRotatef(anglex,0.0,1.0,0.0);
 
@@ -259,6 +276,47 @@ void clavier(unsigned char touche,int x,int y)
     }
 }
 
+void handleArrowKeys(int key, int x, int y)
+{
+    switch (key)
+    {
+        case GLUT_KEY_LEFT:
+            leftKeyPressed = true;
+            if(leftKeyPressed) horizontalMove -= 2;
+        break;
+        case GLUT_KEY_RIGHT:
+            rightKeyPressed = true;
+            if(rightKeyPressed) horizontalMove += 2;
+        break;
+        case GLUT_KEY_UP:
+            upKeyPressed = true;
+            if(upKeyPressed) verticalMove -= 2;
+        break;
+        case GLUT_KEY_DOWN:
+            downKeyPressed = true;
+            if(downKeyPressed) verticalMove += 2;
+        break;
+    }
+}
+
+void handleArrowkeysReleased(int key, int x, int y)
+{
+    switch (key)
+    {
+        case GLUT_KEY_LEFT:
+            leftKeyPressed = false;
+        break;
+        case GLUT_KEY_RIGHT:
+            rightKeyPressed = false;
+        break;
+        case GLUT_KEY_UP:
+            upKeyPressed = false;
+        break;
+        case GLUT_KEY_DOWN:
+            downKeyPressed = false;
+        break;
+    }
+}
 
 //!
 //! \brief : Fonction reshape
